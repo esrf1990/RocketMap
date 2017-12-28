@@ -76,11 +76,8 @@ const pokemonWithImages = [
     2, 3, 5, 6, 8, 9, 11, 28, 31, 34, 38, 59, 62, 65, 68, 71, 73, 76, 82, 89, 91, 94, 103, 105, 110, 112, 123, 125, 126, 129, 131, 134, 135, 136, 137, 139, 143, 144, 145, 146, 150, 153, 156, 159, 243, 244, 245, 248, 249, 250, 302, 303, 359, 382, 383, 384
 ]
 
-var currentDate = new Date()
-var currentHour = currentDate.getHours()
-var clear = (currentHour >= 6 && currentHour < 19) ? 'weatherIcon_small_sunny.png' : 'weatherIcon_small_clear.png'
-var partlycloudy = (currentHour >= 6 && currentHour < 19) ? 'weatherIcon_small_partlycloudy_day.png' : 'weatherIcon_small_partlycloudy_night.png'
-
+var clear
+var partlycloudy
 
 const weatherImages = {
     1: clear,
@@ -240,6 +237,8 @@ function initMap() { // eslint-disable-line no-unused-vars
     map.mapTypes.set('style_pgo_night', stylePgoNight)
 
     // dynamic map style chooses stylePgoDay or stylePgoNight depending on client time
+    var currentDate = new Date()
+    var currentHour = currentDate.getHours()
     var stylePgoDynamic = (currentHour >= 6 && currentHour < 19) ? stylePgoDay : stylePgoNight
     map.mapTypes.set('style_pgo_dynamic', stylePgoDynamic)
 
@@ -525,12 +524,17 @@ function pokemonLabel(item) {
     var cpMultiplier = item['cp_multiplier']
     var weather_boosted_condition = item['weather_boosted_condition']
     var weatherDisplay = ''
+    var currentDate = new Date()
+    var currentHour = currentDate.getHours()
 
     $.each(types, function (index, type) {
         typesDisplay += getTypeSpan(type)
     })
 
     if (weather_boosted_condition) {
+        clear = (currentHour >= 6 && currentHour < 19) ? 'weatherIcon_small_sunny.png' : 'weatherIcon_small_clear.png'
+        partlycloudy = (currentHour >= 6 && currentHour < 19) ? 'weatherIcon_small_partlycloudy_day.png' : 'weatherIcon_small_partlycloudy_night.png'
+
         weatherDisplay = `<img src='static/images/weather/${weatherImages[weather_boosted_condition]}' style="width: 24px; vertical-align: middle;">`
     }
 
